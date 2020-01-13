@@ -39,7 +39,6 @@ public class PolicyPage : MonoBehaviour
 
     //determine which sliders to create and create them 
     public void create_sliders(){
-        //List<Energy> region_energy_plants = God.regions[God.selected_region].energy_plants;
         int offset = 0; 
         Debug.Log(God.research_levels);
         //repeate for each type of research 
@@ -50,7 +49,7 @@ public class PolicyPage : MonoBehaviour
                 new_slider(i.Key, 1, offset);
                 offset -= 45;
             }
-            
+
             if (i.Value >= 2){
                 new_slider(i.Key, 2, offset);
                 offset -= 45;
@@ -63,6 +62,7 @@ public class PolicyPage : MonoBehaviour
             
 
         }
+        
     }
     //use popularity to randomly determine if the policy passes 
     public bool policy_passes(){
@@ -80,16 +80,25 @@ public class PolicyPage : MonoBehaviour
 
     //determine if policy passes and if so restricts energy type 
     public void button_clicked(){
-        if (policy_passes()){
-            Debug.Log("policy passes");
-            foreach(PolicySlider i in sliders){
-                string name = i.name; 
-                int level = i.level;
-                float restriction = i.get_value();
-                God.restrict_energy(name,level,  restriction);
-            }
+        if(God.can_policy){
+            GameTime.policy_counter.Add("Wait", God.policy_wait);
+            God.can_policy = false;
+            if (policy_passes()){
+                foreach(PolicySlider i in sliders){
+                    string name = i.name; 
+                    int level = i.level;
+                    float restriction = i.get_value();
+                    God.restrict_energy(name,level,  restriction);
+                }
 
+            }
         }
+        
+    }
+
+    public static void timer_finished(string name){
+        Debug.Log("policy wait time finished");
+        God.can_policy = true;
     }
 
     // Update is called once per frame

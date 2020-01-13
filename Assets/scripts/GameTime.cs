@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GameTime : MonoBehaviour
 {
-   public static Dictionary<string, int> research_counter = new Dictionary<string,int>(); 
+    public static Dictionary<string, int> research_counter = new Dictionary<string,int>(); 
     public static Dictionary<string, int> build_counter = new Dictionary<string,int>(); 
     public static Dictionary<string, int> god_counter = new Dictionary<string,int>(); 
+    public static Dictionary<string, int> policy_counter = new Dictionary<string,int>();  
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,7 @@ public class GameTime : MonoBehaviour
         research_counter.Clear();
         build_counter.Clear();
         god_counter.Clear();
+        policy_counter.Clear();
     }
 
     // Update is called once per frame
@@ -64,6 +67,15 @@ public class GameTime : MonoBehaviour
                         if (god_counter[i] == 0){
                             god_counter.Remove(i);
                             God.timer_finished(i);
+                        }
+                    }
+                    List<string> policy_keys= new List<string>(policy_counter.Keys);
+                    foreach (string i in policy_keys)
+                    {
+                        policy_counter[i] -= 1;
+                        if (policy_counter[i] == 0){
+                            policy_counter.Remove(i);
+                            PolicyPage.timer_finished(i);
                         }
                     }
                 }

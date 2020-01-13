@@ -26,6 +26,7 @@ public class God : MonoBehaviour
     public static int min_energy_increase_amount_rate; // the rate the amount of min energy increase 
     public static int build_wait;
     public static int research_wait;
+    public static int policy_wait;//number of days to wait before you can propose poilcy again
     public static int max_co2;
     public static int starting_energy_plants; // amount of energy that player starts with
 
@@ -70,6 +71,7 @@ public class God : MonoBehaviour
     public static int min_energy_increase_amount; //amount energy increases each time  
 
     public static double current_popularity;
+    public static bool can_policy; //true if player is able to enact policy
     public static double energy_pop_min;//mininum percentage added to popularity from energy production
     public static double energy_pop_max;//max percentage added to popularity from energy production 
     public static double co2_pop_min;
@@ -94,6 +96,7 @@ public class God : MonoBehaviour
         min_energy_increase_amount_rate = 2;
         max_co2 = 2000;
         starting_energy_plants = 2;
+        policy_wait = 5;
         
 
         blank_energy_object_copy = blank_energy_object;
@@ -174,6 +177,8 @@ public class God : MonoBehaviour
         world_energy_production = 0; 
         world_co2_total = 0; 
 
+        can_policy = true;
+
         //reset energy_restriction dictionary 
         energy_restrictions.Clear();
         foreach(string i in energy_names){
@@ -246,8 +251,6 @@ public class God : MonoBehaviour
             //remap values between min and max values 
             double mapped_till_doom = remap(percent_till_doom, 0, 1, co2_pop_min, co2_pop_max); 
             double mapped_surplus = remap(percent_surplus, 0, 1, energy_pop_min, energy_pop_max); 
-
-            Debug.Log(mapped_till_doom);
 
             //add energy and co2 quality to get total popularity 
             current_popularity = mapped_till_doom + mapped_surplus;
