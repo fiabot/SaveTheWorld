@@ -39,18 +39,24 @@ public class PolicyPage : MonoBehaviour
 
     //determine which sliders to create and create them 
     public void create_sliders(){
-        List<Energy> region_energy_plants = God.regions[God.selected_region].energy_plants;
+        //List<Energy> region_energy_plants = God.regions[God.selected_region].energy_plants;
         int offset = 0; 
+        Debug.Log(God.research_levels);
         //repeate for each type of research 
         foreach (KeyValuePair<string, int> i in God.research_levels){
             //for each level that has been researched, add a slider
+            Debug.Log(i.Value);
             if (i.Value >= 1 ){
                 new_slider(i.Key, 1, offset);
                 offset -= 45;
-            }else if (i.Value >= 2){
+            }
+            
+            if (i.Value >= 2){
                 new_slider(i.Key, 2, offset);
                 offset -= 45;
-            }else if (i.Value >= 3){
+            }
+
+            if (i.Value >= 3){
                 new_slider(i.Key, 2, offset);
                 offset -= 45;
             }
@@ -60,16 +66,15 @@ public class PolicyPage : MonoBehaviour
     }
     //use popularity to randomly determine if the policy passes 
     public bool policy_passes(){
-        return true;
-        /*double chance = Random.value;
+        double chance = Random.value;
         if (chance < God.current_popularity){
-            Debug.Log("passes");
+            main_title.text = "policy passes";
             return true; 
         }
         else{
-            Debug.Log('fails');
+            main_title.text = "policy does not pass";
             return false;
-        }*/
+        }
 
     }
 

@@ -52,10 +52,10 @@ public class info_display : MonoBehaviour
             display_text.text = God.world_co2_total.ToString();
         }
         else if (display_current_energy_needs){
-            display_text.text = God.min_energy_needs.ToString();
+            display_text.text = God.current_energy_needs.ToString();
         }
         else if (display_min_energy_needs){
-            display_text.text = God.current_energy_needs.ToString();
+            display_text.text = God.min_energy_needs.ToString();
         }
         else if (display_popularity){
             Debug.Log(God.current_popularity);

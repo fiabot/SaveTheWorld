@@ -22,7 +22,7 @@ public class PolicySlider : MonoBehaviour
     public void initalize(){
         title = GetComponent<Text>(); 
         
-        title.text = name; 
+        title.text = name + " " + level.ToString(); 
         transform.position = transform.position + new Vector3(0,y_offset,0);
 
     }

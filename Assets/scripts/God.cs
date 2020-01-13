@@ -70,8 +70,10 @@ public class God : MonoBehaviour
     public static int min_energy_increase_amount; //amount energy increases each time  
 
     public static double current_popularity;
-    public static double energy_boost;//how much popularity is influenced by energy production 
-    public static double co2_boost;// how much popularity is influences by co2 production 
+    public static double energy_pop_min;//mininum percentage added to popularity from energy production
+    public static double energy_pop_max;//max percentage added to popularity from energy production 
+    public static double co2_pop_min;
+    public static double co2_pop_max;
 
     public static bool player_won; 
     public static bool player_lost; 
@@ -106,7 +108,7 @@ public class God : MonoBehaviour
         int[] solar_energy_int = {0,2,8,20};
         energy_production_by_name.Add("Coal", coal_energy_int); 
         energy_production_by_name.Add("Solar", solar_energy_int); 
-        
+
         //set up co2 prodcution levels 
         int[] coal_co2_int = {0,10,20,30};
         int[] solar_co2_int = {0,5,3,0}; 
@@ -160,8 +162,10 @@ public class God : MonoBehaviour
 
         current_popularity = 0.8;
         Research.buttons_active =true;
-        energy_boost = 0.2;
-        co2_boost = 0.3;
+        energy_pop_min = 0.2;
+        co2_pop_min = 0.3;
+        energy_pop_max = 0.5; 
+        co2_pop_max = 0.5;
 
         player_lost = false; 
         player_won = false;
@@ -239,9 +243,9 @@ public class God : MonoBehaviour
             double percent_till_doom = 1 - ((double)world_co2_total/(double)max_co2);
             double percent_surplus = current_surplus/world_energy_production; 
 
-            //remap values between bonus and 0.5 
-            double mapped_till_doom = remap(percent_till_doom, 0, 1, co2_boost, 0.5); 
-            double mapped_surplus = remap(percent_surplus, 0, 1, energy_boost, 0.5); 
+            //remap values between min and max values 
+            double mapped_till_doom = remap(percent_till_doom, 0, 1, co2_pop_min, co2_pop_max); 
+            double mapped_surplus = remap(percent_surplus, 0, 1, energy_pop_min, energy_pop_max); 
 
             Debug.Log(mapped_till_doom);
 
