@@ -45,28 +45,28 @@ public class Region: MonoBehaviour
        God.update_world(); 
    }
    public void update_energy(){
-       int energy_counter = 0;
+       int energy_timer = 0;
        //add up the energy collected from each plant
        foreach (Energy i in energy_plants)
        {
-           energy_counter += i.current_energy; 
+           energy_timer += i.current_energy; 
 
            //if region has an advantage in this regions, add the extra energy
            if (advantage == i.name){
-               energy_counter += advantage_pts;
+               energy_timer += advantage_pts;
            }
        }
        //set the total count to regions energy productions 
-       energy_production = energy_counter;
+       energy_production = energy_timer;
    }
    public void update_co2(){
-       int co2_counter = 0; 
+       int co2_timer = 0; 
        //add up the co2 production from each plant 
        foreach (Energy i in energy_plants)
        {
-           co2_counter += i.current_co2; 
+           co2_timer += i.current_co2; 
        }
-       co2_production = co2_counter;
+       co2_production = co2_timer;
    }
    public void apply_restriction(string energy_name, int level, float restriction){
        Debug.Log("applying restriciont");

@@ -45,6 +45,12 @@ public class God : MonoBehaviour
     public static Dictionary<string, int[]> energy_build_cost = new Dictionary<string, int[]>(); 
     public static Dictionary<string, int[]> energy_build_energy_increase = new Dictionary<string, int[]>(); 
 
+    public static string[] disaster_names = {"Flood", "Drought", "Hurricane", "Forest Fire"};
+    public static float damage_percent_min; 
+    public static float damage_percent_max;
+    public static int maximum_damage_wait;
+    public static int maximum_relief_wait;
+
 
     //varrying variables 
     public static int world_energy_production; 
@@ -97,6 +103,11 @@ public class God : MonoBehaviour
         max_co2 = 2000;
         starting_energy_plants = 2;
         policy_wait = 5;
+
+        damage_percent_min = 0.001f; 
+        damage_percent_max = 0.01f;
+        maximum_damage_wait = 10;
+        maximum_relief_wait = 20;
         
 
         blank_energy_object_copy = blank_energy_object;
@@ -194,6 +205,9 @@ public class God : MonoBehaviour
         //create new min energy increse timer 
         add_new_energy_increase_timer();
 
+        //create first disater timer 
+        Disaster.add_disaster_timer();
+
 
         //creates region objects, intializes them, and adds them to region list
         regions.Clear();
@@ -234,12 +248,12 @@ public class God : MonoBehaviour
     //start new timer for money drop
     public static void add_new_money_timer(){
         int money_drop_time = Random.Range(money_drop_min, money_drop_max);
-        GameTime.god_counter.Add("money", money_drop_time);
+        GameTime.god_timer.Add("money", money_drop_time);
 
     }
     //start a timer to increase mininum energy needs
     public static void add_new_energy_increase_timer(){
-        GameTime.god_counter.Add("energy", min_energy_increase_time);
+        GameTime.god_timer.Add("energy", min_energy_increase_time);
     }
     //calculate and update popularity 
     public static void calc_popularity(){
@@ -338,7 +352,7 @@ public class God : MonoBehaviour
 
    
    
-    //runs when counter is completed 
+    //runs when timer is completed 
     public static void timer_finished(string value){
         //if the money timer is ended, create new money button
         if(value == "money"){

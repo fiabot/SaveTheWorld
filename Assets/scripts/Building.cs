@@ -59,12 +59,12 @@ public class Building : MonoBehaviour
             return(true);
         }
     }
-    public static void start_counter(string energy_name, int energy_level, int cost, int energy_increase){
-        Debug.Log("building counter started");
+    public static void start_timer(string energy_name, int energy_level, int cost, int energy_increase){
+        Debug.Log("building timer started");
         if (can_afford(cost, energy_increase)){
             God.added_energy_needs += energy_increase; 
-            string counter_name = energy_name + "-" + energy_level.ToString() + "-" + build_region;
-            GameTime.build_counter.Add(counter_name, God.build_wait);
+            string timer_name = energy_name + "-" + energy_level.ToString() + "-" + build_region;
+            GameTime.build_timer.Add(timer_name, God.build_wait);
             God.total_money -= cost;
         }
     }
@@ -92,7 +92,7 @@ public class Building : MonoBehaviour
     public static void button_clicked(string energy_name, int energy_level, int cost, int energy_increase){
         Debug.Log(energy_name);
         build_region = God.selected_region;
-        start_counter(energy_name, energy_level, cost, energy_increase);
+        start_timer(energy_name, energy_level, cost, energy_increase);
         
     }
 }

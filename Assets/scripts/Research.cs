@@ -49,13 +49,13 @@ public class Research: MonoBehaviour
         }
 
     }
-    //subtract money and start a counter for research to start 
-    public static void start_counter(string energy_name, int energy_level, int cost, int energy_increase){
+    //subtract money and start a timer for research to start 
+    public static void start_timer(string energy_name, int energy_level, int cost, int energy_increase){
         buttons_active = false;
         if (can_afford(cost, energy_increase)){
             God.added_energy_needs += energy_increase; 
-            string counter_name = energy_name + " " + (string) energy_level.ToString();
-            GameTime.research_counter.Add(counter_name, God.research_wait);
+            string timer_name = energy_name + " " + (string) energy_level.ToString();
+            GameTime.research_timer.Add(timer_name, God.research_wait);
             God.total_money -= cost;
         }
     } 
@@ -100,7 +100,7 @@ public class Research: MonoBehaviour
     }
     
      public static void  button_clicked(string name, int level, int cost, int energy_increase){
-         start_counter(name,level,cost, energy_increase);
+         start_timer(name,level,cost, energy_increase);
         
         
         

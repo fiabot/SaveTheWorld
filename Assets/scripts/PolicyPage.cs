@@ -81,7 +81,7 @@ public class PolicyPage : MonoBehaviour
     //determine if policy passes and if so restricts energy type 
     public void button_clicked(){
         if(God.can_policy){
-            GameTime.policy_counter.Add("Wait", God.policy_wait);
+            GameTime.policy_timer.Add("Wait", God.policy_wait);
             God.can_policy = false;
             if (policy_passes()){
                 foreach(PolicySlider i in sliders){

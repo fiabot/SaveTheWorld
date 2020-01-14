@@ -58,7 +58,6 @@ public class info_display : MonoBehaviour
             display_text.text = God.min_energy_needs.ToString();
         }
         else if (display_popularity){
-            Debug.Log(God.current_popularity);
             display_text.text = God.current_popularity.ToString();
         }
     }
