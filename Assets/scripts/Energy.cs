@@ -36,8 +36,6 @@ public class Energy : MonoBehaviour
         Debug.Log("scaling energy"); 
         current_energy =(int) Mathf.Floor(energy_potential * energy_restriction);
         current_co2 = (int) Mathf.Floor(co2_potential * energy_restriction);
-        Debug.Log(energy_potential);
-        Debug.Log(current_energy);
     }
     // Update is called once per frame
     void Update()

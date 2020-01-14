@@ -11,11 +11,8 @@ public class Region: MonoBehaviour
     public int co2_production; 
     public string advantage; 
     public int advantage_pts; 
-    public Dictionary<string, Energy> strings = new Dictionary<string, Energy>();
     public List<Energy> energy_plants = new List<Energy>(); 
     public Dictionary<string, int> energy_by_type = new Dictionary<string,int>(); 
-
-    
     
     
     // Start is called before the first frame update
@@ -79,6 +76,16 @@ public class Region: MonoBehaviour
        update_energy();
        update_co2(); 
 
+   }
+   //remove energy plants in the case of a disaster
+   public void disaster_hit(int num_removed){
+       //for each plant to be removed, randomly chose one from the list of keys 
+       for (int i = 0; i<num_removed; i++){
+           int random_index = Random.Range(0, energy_plants.Count);
+           energy_plants.Remove(energy_plants[random_index]);
+       }
+       update_energy(); 
+       update_co2();
    }
 
     // Update is called once per frame

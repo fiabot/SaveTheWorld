@@ -29,7 +29,7 @@ public class Building : MonoBehaviour
         int offset = 0;
         foreach (KeyValuePair<string, int> i in God.research_levels){
             if (i.Value == 0){
-                Debug.Log("Not researched yet");
+                //Debug.Log("Not researched yet");
             }else{
                 GameObject new_button = Instantiate(blank_button2, Canvas2, true);
                 new_button.SetActive(true);  
@@ -60,24 +60,20 @@ public class Building : MonoBehaviour
         }
     }
     public static void start_timer(string energy_name, int energy_level, int cost, int energy_increase){
-        Debug.Log("building timer started");
         if (can_afford(cost, energy_increase)){
             God.added_energy_needs += energy_increase; 
-            string timer_name = energy_name + "-" + energy_level.ToString() + "-" + build_region;
+            string random_sequence = Random.value.ToString(); //add to end to avoid conflicting names
+            string timer_name = energy_name + "-" + energy_level.ToString() + "-" + build_region + "-" + random_sequence;
             GameTime.build_timer.Add(timer_name, God.build_wait);
             God.total_money -= cost;
         }
     }
     public static void timer_finished(string name){
-        Debug.Log("build wait finished");
+        Debug.Log("build wait finished" + name);
         string[] elements = name.Split('-'); 
         string energy_name = elements[0]; 
         int energy_level = int.Parse(elements[1]);
         string region = elements[2];
-
-        Debug.Log(energy_name);
-        Debug.Log(energy_level);
-        Debug.Log(region);
         
         // when building is finished reset energy needs
         int[] energy_array = God.energy_build_energy_increase[energy_name];
@@ -90,7 +86,6 @@ public class Building : MonoBehaviour
     }
 
     public static void button_clicked(string energy_name, int energy_level, int cost, int energy_increase){
-        Debug.Log(energy_name);
         build_region = God.selected_region;
         start_timer(energy_name, energy_level, cost, energy_increase);
         

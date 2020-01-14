@@ -37,7 +37,6 @@ public class ResearchButton : MonoBehaviour
          
     }
     public void initalize(){ 
-        Debug.Log("Initalize");
         int[] cost_array = God.energy_research_cost[energy_name];
         cost = cost_array[energy_level];
 

@@ -29,6 +29,7 @@ public class GameTime : MonoBehaviour
         build_timer.Clear();
         god_timer.Clear();
         policy_timer.Clear();
+        disaster_timer.Clear();
     }
 
     // Update is called once per frame
@@ -94,8 +95,6 @@ public class GameTime : MonoBehaviour
                     {
                         disaster_timer[i] -= 1;
                         if (disaster_timer[i] == 0){
-                            Debug.Log("timer finished");
-                            Debug.Log(i);
                             disaster_timer.Remove(i);
                             Disaster.timer_finished(i);
                         }

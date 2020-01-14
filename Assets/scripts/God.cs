@@ -106,7 +106,7 @@ public class God : MonoBehaviour
 
         damage_percent_min = 0.001f; 
         damage_percent_max = 0.01f;
-        maximum_damage_wait = 10;
+        maximum_damage_wait = 20;
         maximum_relief_wait = 20;
         
 
@@ -269,7 +269,6 @@ public class God : MonoBehaviour
             //add energy and co2 quality to get total popularity 
             current_popularity = mapped_till_doom + mapped_surplus;
 
-
         }
 
     }
@@ -277,9 +276,11 @@ public class God : MonoBehaviour
     public static bool if_lost(){ 
         //return true if co2 exceeds maximum
         if (world_co2_total >= max_co2){
+            Debug.Log("co2 loss");
             return true; 
         //retrun ture if not producing enough energy 
         }else if (current_energy_needs >= world_energy_production){
+            Debug.Log("energy loss");
             return true;
         }else{ 
             return false;
@@ -371,7 +372,6 @@ public class God : MonoBehaviour
 
         //if energy timer is complete, increase min energy needs 
         }else if (value == "energy"){
-            Debug.Log("energy_increase");
             min_energy_needs += min_energy_increase_amount; 
             min_energy_increase_amount += min_energy_increase_amount_rate;
             add_new_energy_increase_timer();

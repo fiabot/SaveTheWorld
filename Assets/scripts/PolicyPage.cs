@@ -97,7 +97,7 @@ public class PolicyPage : MonoBehaviour
     }
 
     public static void timer_finished(string name){
-        Debug.Log("policy wait time finished");
+        //Debug.Log("policy wait time finished");
         God.can_policy = true;
     }
 

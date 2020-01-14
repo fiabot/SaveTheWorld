@@ -24,7 +24,6 @@ public class MoneyButton : MonoBehaviour
     //add money when clicked 
     void TaskOnClick(){
         God.total_money += value; 
-        Debug.Log("money increase");
         Debug.Log(God.total_money);
         Destroy(gameObject);
     }

@@ -61,9 +61,8 @@ public class Research: MonoBehaviour
     } 
     //when timer is finished, parse name and update research 
     public static void timer_finished(string name){
-        Debug.Log("timer finished");
+        Debug.Log("research finished:" + name);
         buttons_active = true;
-        Debug.Log(name);
         string[] elements = name.Split(' '); 
         Debug.Log(elements[1]);
         string energy_name = elements[0]; 
@@ -92,9 +91,6 @@ public class Research: MonoBehaviour
         }
     }
     public static void update_research(string name, int level){
-        Debug.Log("updating research");
-        Debug.Log(name);
-        Debug.Log(level);
         God.research_levels[name] = level + 1; 
         //reset_buttons();
     }
