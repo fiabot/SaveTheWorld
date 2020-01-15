@@ -80,6 +80,11 @@ public class Building : MonoBehaviour
         int energy_increase = energy_array[energy_level];
         God.added_energy_needs -= energy_increase;
 
+        //display notification 
+        God.notification_title = "Plant Built";
+        God.notification_subtitle = energy_name + " " + energy_level + " built in " + region;
+        Notification.show_notification();
+
         //buy the energy plant 
         God.buy_energy_plant(energy_name, energy_level, region);
         

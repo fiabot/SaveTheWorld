@@ -56,7 +56,7 @@ public class PolicyPage : MonoBehaviour
             }
 
             if (i.Value >= 3){
-                new_slider(i.Key, 2, offset);
+                new_slider(i.Key, 3, offset);
                 offset -= 45;
             }
             
@@ -88,7 +88,7 @@ public class PolicyPage : MonoBehaviour
                     string name = i.name; 
                     int level = i.level;
                     float restriction = i.get_value();
-                    God.restrict_energy(name,level,  restriction);
+                    God.restrict_energy(name, level,  restriction);
                 }
 
             }

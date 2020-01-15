@@ -55,7 +55,8 @@ public class ResearchButton : MonoBehaviour
         if (energy_level == 3){
             this_button.interactable = false;
         }
-        title.text = energy_name + " " + energy_level; 
+        int next_level = energy_level + 1;
+        title.text = energy_name + " " + next_level; 
 
         transform.position = transform.position + new Vector3(0,y_offset,0);
 

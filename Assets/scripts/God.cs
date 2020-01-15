@@ -45,7 +45,7 @@ public class God : MonoBehaviour
     public static Dictionary<string, int[]> energy_build_cost = new Dictionary<string, int[]>(); 
     public static Dictionary<string, int[]> energy_build_energy_increase = new Dictionary<string, int[]>(); 
 
-    public static string[] disaster_names = {"Flood", "Drought", "Hurricane", "Forest Fire"};
+    public static string[] disaster_names = {"Floods", "Drought", "Hurricane", "Forest Fires"};
     public static float damage_percent_min; 
     public static float damage_percent_max;
     public static int maximum_damage_wait;
@@ -86,6 +86,9 @@ public class God : MonoBehaviour
     public static bool player_won; 
     public static bool player_lost; 
 
+    public static string notification_title; 
+    public static string notification_subtitle;
+
     
 
     void Start(){
@@ -106,7 +109,7 @@ public class God : MonoBehaviour
 
         damage_percent_min = 0.001f; 
         damage_percent_max = 0.01f;
-        maximum_damage_wait = 20;
+        maximum_damage_wait = 30;
         maximum_relief_wait = 20;
         
 

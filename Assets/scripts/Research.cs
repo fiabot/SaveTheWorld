@@ -73,6 +73,12 @@ public class Research: MonoBehaviour
         int energy_increase = energy_array[energy_level];
         God.added_energy_needs -= energy_increase;
 
+        //display notification 
+        God.notification_title = "Energy Unlocked";
+        int next_level = energy_level + 1;
+        God.notification_subtitle = energy_name + " " + next_level + " research complete";
+        Notification.show_notification();
+
         update_research(energy_name, energy_level);
     }
 

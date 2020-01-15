@@ -79,6 +79,11 @@ public class Disaster : MonoBehaviour
 
             Debug.Log("Destoyed " + damage.ToString() +" plants in " + region_name);
 
+            //display notification 
+            God.notification_title = name;
+            God.notification_subtitle = damage.ToString() +" plant[s] destroyed in " + region_name;
+            Notification.show_notification();
+
             //remove plants 
             region_target.disaster_hit(damage); 
         }
