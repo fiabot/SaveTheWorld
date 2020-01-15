@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+Manages research 
+create research buttons 
+Trigger and respond to research timers 
+updates research levels
+
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +18,7 @@ public class Research: MonoBehaviour
     public static GameObject blank_button2;
     public static bool buttons_active;
 
-    // Start is called before the first frame update
+    //create buttons and copy varriables 
     void Start()
     {
         //copy variables that can be used later 
@@ -21,13 +28,8 @@ public class Research: MonoBehaviour
         blank_script = blank_button.GetComponent<ResearchButton>();
         blank_script.energy_name = "This is not a button";
         reset_buttons();
-        DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
     //display buttons according to current research level
     public static void reset_buttons(){
         int offset = 0;
@@ -49,6 +51,7 @@ public class Research: MonoBehaviour
         }
 
     }
+
     //subtract money and start a timer for research to start 
     public static void start_timer(string energy_name, int energy_level, int cost, int energy_increase){
         buttons_active = false;
@@ -59,6 +62,7 @@ public class Research: MonoBehaviour
             God.total_money -= cost;
         }
     } 
+
     //when timer is finished, parse name and update research 
     public static void timer_finished(string name){
         Debug.Log("research finished:" + name);
@@ -82,6 +86,7 @@ public class Research: MonoBehaviour
         update_research(energy_name, energy_level);
     }
 
+    //return true if player can afford cost and energy increase 
     public static bool can_afford(int cost, int energy_increase){
         if(God.total_money < cost){
             Debug.Log("not enough money");
@@ -96,11 +101,14 @@ public class Research: MonoBehaviour
             return(true);
         }
     }
+
+    //increment research level by one
     public static void update_research(string name, int level){
         God.research_levels[name] = level + 1; 
         //reset_buttons();
     }
     
+    //runs when button is clicked, trigger timer 
      public static void  button_clicked(string name, int level, int cost, int energy_increase){
          start_timer(name,level,cost, energy_increase);
         

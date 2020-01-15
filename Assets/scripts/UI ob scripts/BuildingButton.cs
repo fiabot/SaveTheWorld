@@ -1,10 +1,19 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+
+Manage single building button 
+Contain energy name and level information 
+Respond to user input 
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BuildingButton : MonoBehaviour
 {
+    //set up varriables 
     public string energy_name; 
     public int energy_level; 
     public int cost; 
@@ -13,28 +22,20 @@ public class BuildingButton : MonoBehaviour
     Transform child;
     public Text title; 
     public Button this_button; 
+
     // Start is called before the first frame update
     void Start()
     {
-        //set up variables 
+        //set up and copy variables 
         child = this.gameObject.transform.GetChild(0);
         title = child.GetComponent<Text>();
         this_button =  GetComponent<Button>();
-
-        
-
-
 
         this_button.onClick.AddListener(TaskOnClick);        
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-         
-         
-    }
+    //update energy and cost information, apply offset 
     public void initalize(){ 
         this_button =  GetComponent<Button>();
 
@@ -61,10 +62,9 @@ public class BuildingButton : MonoBehaviour
         transform.position = transform.position + new Vector3(0,y_offset,0);
 
     }
+    
+    //send info to Building when clicked 
     public void TaskOnClick(){
-        Debug.Log("in button");
-        Debug.Log(energy_name);
-        
         Building.button_clicked(energy_name, energy_level, cost, energy_increase);
         
         

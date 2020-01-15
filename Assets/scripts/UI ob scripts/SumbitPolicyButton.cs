@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne 
+Manages sumbit policy button 
+Make interactable if permitted 
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

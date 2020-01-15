@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+Manage Region action
+Contain energy plants and update energy production 
+Restrict energy in regions plants 
+Destroy plants in disaster event
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -87,10 +95,4 @@ public class Region: MonoBehaviour
        update_energy(); 
        update_co2();
    }
-
-    // Update is called once per frame
-    void Update()
-    {
-         
-    }
 }

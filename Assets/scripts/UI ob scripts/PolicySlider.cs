@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+Manages policy slider 
+hold energy type info and sends data to policypage 
+
+
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +19,15 @@ public class PolicySlider : MonoBehaviour
     public static Slider slider;
     public int index;
     public int level; 
-    // Start is called before the first frame update
+
+    // Define objects 
     void Start()
     {
         title = GetComponent<Text>(); 
         slider = GetComponent<Slider>();
     }
+
+    //Update text and positon 
     public void initalize(){
         title = GetComponent<Text>(); 
         
@@ -26,15 +35,12 @@ public class PolicySlider : MonoBehaviour
         transform.position = transform.position + new Vector3(0,y_offset,0);
 
     }
+
+    //Resturn value of slider
     public float get_value(){
         slider = GetComponent<Slider>();
         return slider.value;
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

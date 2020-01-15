@@ -23,19 +23,7 @@ public class Disaster : MonoBehaviour
         GameTime.disaster_timer.Add("disaster", days_to_wait);
 
     }
-    /*public static void add_relief_timer(int damage){
-        foreach(var i in GameTime.disaster_timer){
-            Debug.Log(i.Key);
-        }
-        //add longer waits for time when there is less co2
-        float perecent_till_doom = (float)God.world_co2_total / (float)God.max_co2; //percent of max until player losses 
-        int days_to_wait = (int) Mathf.Floor(perecent_till_doom * God.maximum_relief_wait);//set days to max wait * percentage 
-        Debug.Log("days to wait");
-        Debug.Log(perecent_till_doom);
-        Debug.Log(days_to_wait);
-
-        GameTime.disaster_timer.Add(damage.ToString(), days_to_wait);
-    }*/
+    
     //unleash the distaster if a random percent is less then the percent of total co2 over max co2
     public static bool erupt(){
         float percent_co2_left = God.world_co2_total / God.max_co2;
@@ -49,7 +37,7 @@ public class Disaster : MonoBehaviour
         }
 
     }
-    //runs when timer is finished, if erupt return true increase added energy needs 
+    //runs when timer is finished, if erupt returns true destroy random plants 
     public static void timer_finished(string timer){
         add_disaster_timer();//add a new timer regardless of eruption
     
@@ -87,11 +75,5 @@ public class Disaster : MonoBehaviour
             //remove plants 
             region_target.disaster_hit(damage); 
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

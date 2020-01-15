@@ -1,13 +1,21 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+Control money button 
+Responds to user input 
+Hold money value 
+When clicked increment total money
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MoneyButton : MonoBehaviour
 {
+    //set up varriables 
     Button this_button;
     public int value;
-    // Start is called before the first frame update
+
+    //set up button ob and onclick funtion
     void Start()
     {
         this_button =  GetComponent<Button>();
@@ -16,15 +24,9 @@ public class MoneyButton : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    //add money when clicked 
+    //add money when clicked and self destruct 
     void TaskOnClick(){
         God.total_money += value; 
-        Debug.Log(God.total_money);
         Destroy(gameObject);
     }
 }

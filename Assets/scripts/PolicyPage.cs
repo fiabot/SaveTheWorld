@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+Manage policy page and decisions 
+Create policy toggles 
+Enact or reject policies based on popularity
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

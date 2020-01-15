@@ -3,7 +3,14 @@ Climate change simuluation game
 Research new renewable energy sources, build energy plants, and enact policy to reach net zero emmissions 
 
 
-Manages main variables and functions to be used throught game framework 
+Manages main variables and functions to be used throughout game framework 
+Contains all varriables that are to be across scripts 
+Updates world co2 and energy production as well us popularity 
+Trigger money drops 
+Increase mininum energy needs 
+Transitions between scenes 
+Start and reset games 
+Trigger win and loss events 
 */
 
 using System.Collections;
@@ -90,10 +97,10 @@ public class God : MonoBehaviour
     public static string notification_subtitle;
 
     
-
+    //define unchanging variables
     void Start(){
         Debug.Log("starting");
-        //set up unchanging variables 
+        //define unchanging variables 
         advantage_pts = 2;  
         is_time_passing = false;
         money_drop_max = 5;
@@ -112,11 +119,9 @@ public class God : MonoBehaviour
         maximum_damage_wait = 30;
         maximum_relief_wait = 20;
         
-
         blank_energy_object_copy = blank_energy_object;
 
         //define regions advantages 
-        
         region_advantage.Add(region_names[0], energy_names[0]); 
         region_advantage.Add(region_names[1], energy_names[1]); 
 
@@ -154,14 +159,14 @@ public class God : MonoBehaviour
         int[] coal_bu_en_int = {0,2,5,10};
         int[] solar_bu_en_int = {0,5,4,2}; 
         energy_build_energy_increase.Add("Coal", coal_bu_en_int); 
-        energy_build_energy_increase.Add("Solar", solar_bu_en_int); 
-
-        
-        
+        energy_build_energy_increase.Add("Solar", solar_bu_en_int);    
         
         //so like we don't have to start over each game 
         DontDestroyOnLoad(this.gameObject);
     }
+
+    //runs when start buttton is clicked
+    //reset variables, add starting timers and loads main screen
     public void start_game(){
         //sets up game when start is pressed
 
@@ -235,6 +240,8 @@ public class God : MonoBehaviour
             buy_energy_plant("Coal", 1, "North America");
 
         }
+
+        //update energy, co2 and other important varriables
         update_world();
 
 
@@ -258,6 +265,7 @@ public class God : MonoBehaviour
     public static void add_new_energy_increase_timer(){
         GameTime.god_timer.Add("energy", min_energy_increase_time);
     }
+
     //calculate and update popularity 
     public static void calc_popularity(){
         if(world_co2_production != 0){
@@ -275,6 +283,7 @@ public class God : MonoBehaviour
         }
 
     }
+
     //returns true if player lost game 
     public static bool if_lost(){ 
         //return true if co2 exceeds maximum
@@ -315,8 +324,10 @@ public class God : MonoBehaviour
 
         current_surplus  = world_energy_production - current_energy_needs;
 
+        //update popularity
         calc_popularity();
 
+        //check if player has lost or won the game
         if(if_lost()){
             player_lost = true; 
             load_end();
@@ -326,6 +337,7 @@ public class God : MonoBehaviour
         }
         
     }
+
     //add a energy plant to region 
     public static void buy_energy_plant(string energy_name, int level, string region){
         //create new energy object 
@@ -346,26 +358,28 @@ public class God : MonoBehaviour
 
     //restrict energy of a certain type to a percentage
     public static void restrict_energy(string name, int level, float restriction){
-        
+        //restrict energy in all regions
         foreach (var i in regions){
             i.Value.apply_restriction(name, level, restriction);
         }
-        energy_restrictions[name] = restriction;
+
+        //make all future plants also retricted
+        energy_restrictions[name] = restriction;//TODO add level to energy restrictions
         update_world();
     }
 
-   
    
     //runs when timer is completed 
     public static void timer_finished(string value){
         //if the money timer is ended, create new money button
         if(value == "money"){
-            
+            //calculate money to award
             float excess_energy = (float) current_surplus;
             float random = Random.Range(money_percent_min, money_percent_max);
             float money_awarded =  random * excess_energy;
             money_awarded = Mathf.Ceil(money_awarded);
             
+            //create button
             if(money_awarded != 0){
                 MoneyManager.create_button((int)money_awarded);
             }
@@ -377,6 +391,8 @@ public class God : MonoBehaviour
         }else if (value == "energy"){
             min_energy_needs += min_energy_increase_amount; 
             min_energy_increase_amount += min_energy_increase_amount_rate;
+
+            //start new timer 
             add_new_energy_increase_timer();
 
         }

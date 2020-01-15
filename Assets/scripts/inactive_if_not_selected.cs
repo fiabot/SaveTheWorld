@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/* Fiona Shyne 
+Set building and policy buttons to be inactive if there is no current research 
+Set building button to be inactive if a region is not selected
+
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

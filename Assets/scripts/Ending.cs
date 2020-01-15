@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/* Fiona Shyne 
+Changes title display on ending screen
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

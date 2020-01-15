@@ -1,6 +1,7 @@
 ﻿/*Fiona Shyne 
 Research button object 
 maintains data for research button
+Trigger Research button responder
 
 */
 using System.Collections;
@@ -18,6 +19,7 @@ public class ResearchButton : MonoBehaviour
     Transform child;
     public Text title; 
     public Button this_button; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,12 +32,7 @@ public class ResearchButton : MonoBehaviour
         this_button.onClick.AddListener(TaskOnClick);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-         
-         
-    }
+    //set up important varriables and set appropriate interactability for button
     public void initalize(){ 
         int[] cost_array = God.energy_research_cost[energy_name];
         cost = cost_array[energy_level];
@@ -61,6 +58,8 @@ public class ResearchButton : MonoBehaviour
         transform.position = transform.position + new Vector3(0,y_offset,0);
 
     }
+
+    //when clicked talk to Research, make button uninteractable 
     public void TaskOnClick(){
         
         Research.button_clicked(energy_name, energy_level, cost, energy_increase);

@@ -1,10 +1,18 @@
-﻿using System.Collections;
+﻿/*Fiona Shyne
+
+Display imporant game information to user 
+Information to display setup in ui
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class info_display : MonoBehaviour
 {
+    //Controls for information type
     Text display_text; 
     public bool display_energy;
     public bool display_co2; 
@@ -14,13 +22,14 @@ public class info_display : MonoBehaviour
     public bool display_current_energy_needs;
     public bool display_min_energy_needs;
     public bool display_popularity;
-    // Start is called before the first frame update
+
+    // Define text 
     void Start()
     {
         display_text = GetComponent<Text>();
     }
 
-    // Update is called once per frame
+    //For indivual information need, update text 
     void Update()
     {
         if (display_energy){
