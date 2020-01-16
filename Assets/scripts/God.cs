@@ -23,7 +23,7 @@ public class God : MonoBehaviour
     //set up inital variables
 
     //constant variables 
-    public static int seconds_per_day = 3;
+    public static int seconds_per_day = 2;
 
     public static int money_drop_max;
     public static int money_drop_min;
@@ -109,7 +109,7 @@ public class God : MonoBehaviour
         money_percent_max = 0.8f; 
         build_wait = 3; 
         research_wait = 5;
-        min_energy_increase_amount_rate = 2;
+        min_energy_increase_amount_rate = 1;
         max_co2 = 2000;
         starting_energy_plants = 2;
         policy_wait = 5;
@@ -179,11 +179,11 @@ public class God : MonoBehaviour
         current_energy_needs = 0; 
         added_energy_needs = 0;
 
-        min_energy_increase_time = 20; 
+        min_energy_increase_time = 15; 
         min_energy_increase_amount = 2;
 
         current_popularity = 0.8;
-        Research.buttons_active =true;
+        Research.toggles_active =true;
         energy_pop_min = 0.2;
         co2_pop_min = 0.3;
         energy_pop_max = 0.5; 
@@ -329,9 +329,11 @@ public class God : MonoBehaviour
 
         //check if player has lost or won the game
         if(if_lost()){
+            is_time_passing = false;
             player_lost = true; 
             load_end();
         }else if (if_won()){
+            is_time_passing = false;
             player_won = true; 
             load_end();
         }
@@ -392,6 +394,8 @@ public class God : MonoBehaviour
             min_energy_needs += min_energy_increase_amount; 
             min_energy_increase_amount += min_energy_increase_amount_rate;
 
+            update_world();
+
             //start new timer 
             add_new_energy_increase_timer();
 
@@ -426,8 +430,14 @@ public class God : MonoBehaviour
         is_time_passing = false;
         SceneManager.LoadScene("BuildScreen");
     }
-    //goes back to main screen
+    //goes back to main screen, used for back buttons 
     public void back_to_main(){
+        selected_region = "World";
+        is_time_passing = true;
+        SceneManager.LoadScene("MainScene");
+    }
+    //duplicate for ease of use outside of script
+    public static void static_back_to_main(){
         selected_region = "World";
         is_time_passing = true;
         SceneManager.LoadScene("MainScene");

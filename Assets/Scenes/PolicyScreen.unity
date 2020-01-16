@@ -781,7 +781,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: World
+  m_Text: Policy
 --- !u!222 &1343603033
 CanvasRenderer:
   m_ObjectHideFlags: 0

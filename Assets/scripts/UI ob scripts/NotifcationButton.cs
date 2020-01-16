@@ -27,4 +27,9 @@ public class NotifcationButton : MonoBehaviour
         this_button.onClick.AddListener(Notification.on_click);
     }
 
+    public void set_text(){
+        title.text = God.notification_title; 
+        subtitle.text = God.notification_subtitle;
+    }
+
 }

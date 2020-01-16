@@ -1,6 +1,6 @@
 ﻿/*Fiona Shyne
 Manages research 
-create research buttons 
+create research toggles 
 Trigger and respond to research timers 
 updates research levels
 
@@ -11,39 +11,46 @@ using UnityEngine;
 
 public class Research: MonoBehaviour
 {
-    public GameObject blank_button; 
+    public GameObject blank_toggle; 
     public Transform Canvas;
-    ResearchButton blank_script;
+    ResearchToggle blank_script;
     public static Transform Canvas2;
-    public static GameObject blank_button2;
-    public static bool buttons_active;
+    public static GameObject blank_toggle2;
+    public static bool toggles_active;
 
-    //create buttons and copy varriables 
+    public static string selected_energy_name; 
+    public static int selected_energy_level; 
+    public static int selected_cost; 
+    public static int selected_energy_increase;
+
+    //create toggles and copy varriables 
     void Start()
     {
         //copy variables that can be used later 
-        blank_button2 = blank_button;
+        blank_toggle2 = blank_toggle;
         Canvas2 = Canvas;
-        blank_button.SetActive(false);
-        blank_script = blank_button.GetComponent<ResearchButton>();
-        blank_script.energy_name = "This is not a button";
-        reset_buttons();
+        blank_toggle.SetActive(false);
+        blank_script = blank_toggle.GetComponent<ResearchToggle>();
+        blank_script.energy_name = "This is not a toggle";
+        reset_toggles();
+
+        selected_energy_name = "none";
     }
 
-    //display buttons according to current research level
-    public static void reset_buttons(){
+    //display toggles according to current research level
+    public static void reset_toggles(){
         int offset = 0;
         foreach (var i in God.energy_names){
-            GameObject new_button = Instantiate(blank_button2, Canvas2, true);
-            if(buttons_active){
-                new_button.SetActive(true);
+            GameObject new_toggle = Instantiate(blank_toggle2, Canvas2, true);
+            if(toggles_active){
+                new_toggle.SetActive(true);
             }
              
-            ResearchButton new_button_script = new_button.GetComponent<ResearchButton>(); 
-            new_button_script.energy_name = i;
-            new_button_script.energy_level = God.research_levels[i]; 
-            new_button_script.y_offset = offset;
-            new_button_script.initalize();
+            ResearchToggle new_toggle_script = new_toggle.GetComponent<ResearchToggle>(); 
+            new_toggle_script.energy_name = i;
+            new_toggle_script.energy_level = God.research_levels[i]; 
+            new_toggle_script.y_offset = offset;
+            new_toggle_script.initalize();
             if (God.research_levels[i] == 0){
                 break; 
             }
@@ -54,7 +61,7 @@ public class Research: MonoBehaviour
 
     //subtract money and start a timer for research to start 
     public static void start_timer(string energy_name, int energy_level, int cost, int energy_increase){
-        buttons_active = false;
+        toggles_active = false;
         if (can_afford(cost, energy_increase)){
             God.added_energy_needs += energy_increase; 
             string timer_name = energy_name + " " + (string) energy_level.ToString();
@@ -66,7 +73,7 @@ public class Research: MonoBehaviour
     //when timer is finished, parse name and update research 
     public static void timer_finished(string name){
         Debug.Log("research finished:" + name);
-        buttons_active = true;
+        toggles_active = true;
         string[] elements = name.Split(' '); 
         Debug.Log(elements[1]);
         string energy_name = elements[0]; 
@@ -93,7 +100,7 @@ public class Research: MonoBehaviour
             Debug.Log(cost);
             Debug.Log(God.total_money);
             return (false);
-        } else if(God.current_energy_needs + energy_increase > God.world_energy_production) 
+        } else if(God.current_energy_needs + energy_increase >= God.world_energy_production) 
         {
             Debug.Log("not enough energy");
             return(false);
@@ -102,17 +109,17 @@ public class Research: MonoBehaviour
         }
     }
 
-    //increment research level by one
+    //increment research level by one when research completed
     public static void update_research(string name, int level){
         God.research_levels[name] = level + 1; 
-        //reset_buttons();
     }
     
-    //runs when button is clicked, trigger timer 
-     public static void  button_clicked(string name, int level, int cost, int energy_increase){
-         start_timer(name,level,cost, energy_increase);
-        
-        
+    //runs when toggle is clicked, trigger timer, return to main  
+     public void  submit_clicked(){
+         if(selected_energy_name != "none"){//only start timer if energy selected
+            start_timer(selected_energy_name, selected_energy_level, selected_cost, selected_energy_increase);
+            God.static_back_to_main();
+         }
         
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*Fiona Shyne 
-Manages building actions, buttons, and timers 
+Manages building actions, toggles, and timers 
 */
 
 using System.Collections;
@@ -11,44 +11,48 @@ public class Building : MonoBehaviour
 {
     //set up global varriables 
     public Text main_title; 
-    public GameObject blank_button; 
+    public GameObject blank_toggle; 
     public Transform Canvas; 
-    public static GameObject blank_button2; 
+    public static GameObject blank_toggle2; 
     public static Transform Canvas2; 
     public static string build_region; 
+    public static string selected_energy_name; 
+    public static int selected_energy_level;
+    public static int selected_cost; 
+    public static int selected_energy_increase;
 
     // Start is called before the first frame update
     void Start()
     {
         //make a copy of gambobjects to use later 
-        blank_button2 = blank_button;
+        blank_toggle2 = blank_toggle;
         Canvas2 = Canvas;
 
         //display the country of interest 
         main_title.text = God.selected_region; 
 
-        //make the blank button inactive 
-        blank_button.SetActive(false);
-        reset_buttons();
+        //make the blank toggle inactive 
+        blank_toggle.SetActive(false);
+        reset_toggles();
     }
     
-    //create button objects for each type of energy researched 
-    public static void reset_buttons(){
+    //create toggle objects for each type of energy researched 
+    public static void reset_toggles(){
         int offset = 0;
 
-        //cycle through research dictionary and create a button for each type that has some research
+        //cycle through research dictionary and create a toggle for each type that has some research
         foreach (KeyValuePair<string, int> i in God.research_levels){
             if (i.Value != 0){
-                //create new button 
-                GameObject new_button = Instantiate(blank_button2, Canvas2, true);
-                new_button.SetActive(true);  
+                //create new toggle 
+                GameObject new_toggle = Instantiate(blank_toggle2, Canvas2, true);
+                new_toggle.SetActive(true);  
 
-                //define button script and initalize important varriables 
-                BuildingButton new_button_script = new_button.GetComponent<BuildingButton>(); 
-                new_button_script.energy_name = i.Key;
-                new_button_script.energy_level = i.Value; 
-                new_button_script.y_offset = offset;
-                new_button_script.initalize();
+                //define toggle script and initalize important varriables 
+                BuildingToggle new_toggle_script = new_toggle.GetComponent<BuildingToggle>(); 
+                new_toggle_script.energy_name = i.Key;
+                new_toggle_script.energy_level = i.Value; 
+                new_toggle_script.y_offset = offset;
+                new_toggle_script.initalize();
                 
                 offset -= 35;
             }
@@ -60,7 +64,7 @@ public class Building : MonoBehaviour
     public static bool can_afford(int cost, int energy_increase){
         if(God.total_money < cost){
             return (false);
-        } else if(God.current_energy_needs + energy_increase > God.world_energy_production) 
+        } else if(God.current_energy_needs + energy_increase >= God.world_energy_production) 
         {
             return(false);
         }else{
@@ -103,10 +107,13 @@ public class Building : MonoBehaviour
         
     }
 
-    //runs when button is clicked, starts build timer
-    public static void button_clicked(string energy_name, int energy_level, int cost, int energy_increase){
-        build_region = God.selected_region;
-        start_timer(energy_name, energy_level, cost, energy_increase);
+    //runs submit is clicked, starts build timer, return to main 
+    public void submit_clicked(){
         
+        if(selected_energy_name != "none"){//only start timer if energy selected
+            build_region = God.selected_region;
+            start_timer(selected_energy_name, selected_energy_level, selected_cost, selected_energy_increase);
+            God.static_back_to_main();
+         }
     }
 }
