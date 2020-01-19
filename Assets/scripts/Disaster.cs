@@ -46,7 +46,6 @@ public class Disaster : MonoBehaviour
             int random_name_index = Random.Range(0, God.disaster_names.Length);
             string name = God.disaster_names[random_name_index];
  
-
             //randomly chose  region to target 
             string[] region_list = God.region_names;
             int random_num = Random.Range(0, region_list.Length);//returns random float within range

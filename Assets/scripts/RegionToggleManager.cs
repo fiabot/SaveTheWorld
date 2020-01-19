@@ -13,6 +13,11 @@ public class RegionToggleManager : MonoBehaviour
     public string selected_region= God.selected_region; 
     public Toggle North_America_toggle;
     public Toggle South_America_toggle; 
+    public Toggle Africa_toggle; 
+    public Toggle Asia_toggle; 
+    public Toggle Europe_toggle; 
+    public Toggle Middle_East_toggle; 
+    public Toggle Pacific_toggle;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +37,21 @@ public class RegionToggleManager : MonoBehaviour
         }else if (South_America_toggle.isOn){
             God.selected_region = "South America";
             return "South America"; 
+        }else if (Africa_toggle.isOn){
+            God.selected_region = "Africa";
+            return "Africa";
+        }else if (Asia_toggle.isOn){
+            God.selected_region = "Asia";
+            return "Asia";  
+        }else if (Middle_East_toggle.isOn){
+            God.selected_region = "Middle East";
+            return "Niddle East";  
+        }else if (Europe_toggle.isOn){
+            God.selected_region = "Europe";
+            return "Europe";  
+        }else if (Pacific_toggle.isOn){
+            God.selected_region = "Pacific";
+            return "Pacific";  
         }else{
             God.selected_region = "World"; 
             return "World";

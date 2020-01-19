@@ -26,10 +26,13 @@ public class MoneyManager : MonoBehaviour
 
     //runs when God triggers it, create a new money button 
     public static void create_button(int amount){
-        GameObject new_button = Instantiate(blank_money_button_copy, canvas_copy, true);
-        new_button.SetActive(true);  
-        MoneyButton new_button_script = new_button.GetComponent<MoneyButton>();
-        new_button_script.value = amount; 
+        if(blank_money_button_copy != null){
+            GameObject new_button = Instantiate(blank_money_button_copy, canvas_copy, true);
+            new_button.SetActive(true);  
+            MoneyButton new_button_script = new_button.GetComponent<MoneyButton>();
+            new_button_script.value = amount; 
+            }
+        
     
     }
 }

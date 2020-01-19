@@ -40,6 +40,7 @@ public class Research: MonoBehaviour
     //display toggles according to current research level
     public static void reset_toggles(){
         int offset = 0;
+        int count = 0; //Allow for two new energy to be researched at a time
         foreach (var i in God.energy_names){
             GameObject new_toggle = Instantiate(blank_toggle2, Canvas2, true);
             if(toggles_active){
@@ -52,7 +53,12 @@ public class Research: MonoBehaviour
             new_toggle_script.y_offset = offset;
             new_toggle_script.initalize();
             if (God.research_levels[i] == 0){
-                break; 
+                break;
+                /*if(count == 1){
+                    break;
+                }else{
+                    count += 1; 
+                }*/
             }
             offset -= 35;
         }
@@ -64,7 +70,7 @@ public class Research: MonoBehaviour
         toggles_active = false;
         if (can_afford(cost, energy_increase)){
             God.added_energy_needs += energy_increase; 
-            string timer_name = energy_name + " " + (string) energy_level.ToString();
+            string timer_name = energy_name + "/" + (string) energy_level.ToString();
             GameTime.research_timer.Add(timer_name, God.research_wait);
             God.total_money -= cost;
         }
@@ -74,7 +80,7 @@ public class Research: MonoBehaviour
     public static void timer_finished(string name){
         Debug.Log("research finished:" + name);
         toggles_active = true;
-        string[] elements = name.Split(' '); 
+        string[] elements = name.Split('/'); 
         Debug.Log(elements[1]);
         string energy_name = elements[0]; 
         int energy_level = int.Parse(elements[1]);

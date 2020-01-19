@@ -22,6 +22,7 @@ public class info_display : MonoBehaviour
     public bool display_current_energy_needs;
     public bool display_min_energy_needs;
     public bool display_popularity;
+    public bool display_surplus;
 
     // Define text 
     void Start()
@@ -68,6 +69,9 @@ public class info_display : MonoBehaviour
         }
         else if (display_popularity){
             display_text.text = God.current_popularity.ToString();
+            
+        }else if (display_surplus){
+            display_text.text = "Energy:" + God.current_surplus.ToString();
         }
     }
 }

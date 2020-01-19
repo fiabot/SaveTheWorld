@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class GameTime : MonoBehaviour
 {
+    private static GameTime timeInstance;
     public static Dictionary<string, int> research_timer = new Dictionary<string,int>(); 
     public static Dictionary<string, int> build_timer = new Dictionary<string,int>(); 
     public static Dictionary<string, int> god_timer = new Dictionary<string,int>(); 
@@ -20,7 +21,14 @@ public class GameTime : MonoBehaviour
     //Keep object for all of game 
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject); 
+        DontDestroyOnLoad(this.gameObject);  
+
+        if(timeInstance == null){
+            timeInstance = this;
+        }else{
+            Destroy(gameObject);
+        }
+        
     }
 
     //clear out timers at start of new game 
@@ -38,7 +46,7 @@ public class GameTime : MonoBehaviour
         //add time since last update to total seconds 
         if (God.is_time_passing){
             God.seconds_since_start += Time.deltaTime;
-            float seconds_rounded = Mathf.Round(God.seconds_since_start);
+            float seconds_rounded = Mathf.Floor(God.seconds_since_start);
 
             //runs once a day
             if (God.current_day != (int)God.seconds_since_start/ God.seconds_per_day){  

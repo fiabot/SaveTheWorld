@@ -18,6 +18,9 @@ public class MoneyButton : MonoBehaviour
     //set up button ob and onclick funtion
     void Start()
     {
+        int rand_width = Random.Range(100, Screen.width-100); 
+        int rand_height = Random.Range(100, Screen.height-100);
+        transform.position = new Vector3(rand_width,rand_height,0);
         this_button =  GetComponent<Button>();
 
         this_button.onClick.AddListener(TaskOnClick);

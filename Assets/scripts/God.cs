@@ -20,6 +20,9 @@ using UnityEngine.SceneManagement;
 
 public class God : MonoBehaviour
 {
+    //dont create twice 
+     private static God godInstance;
+
     //set up inital variables
 
     //constant variables 
@@ -37,12 +40,13 @@ public class God : MonoBehaviour
     public static int max_co2;
     public static int starting_energy_plants; // amount of energy that player starts with
 
-    public static string[] region_names = {"North America", "South America"}; 
+    public static string[] region_names = {"North America", "South America", "Africa", "Asia", "Europe", "Middle East", "Pacific"}; 
     public GameObject blank_region_object;
+    public static GameObject blank_region_object_copy;
     public static Dictionary<string, string> region_advantage = new Dictionary<string,string>(); 
     public static int advantage_pts;
 
-    public static string[] energy_names=  {"Coal", "Solar"}; 
+    public static string[] energy_names=  {"Coal","Oil", "Biofuel", "Natural Gas", "Hydropower", "Solar"}; 
     public GameObject blank_energy_object; 
     public static  GameObject blank_energy_object_copy;
     public static Dictionary<string, int[]> energy_production_by_name= new Dictionary<string, int[]>(); 
@@ -99,75 +103,137 @@ public class God : MonoBehaviour
     
     //define unchanging variables
     void Start(){
-        Debug.Log("starting");
-        //define unchanging variables 
-        advantage_pts = 2;  
-        is_time_passing = false;
-        money_drop_max = 5;
-        money_drop_min = 3;
-        money_percent_min = 0.2f; 
-        money_percent_max = 0.8f; 
-        build_wait = 3; 
-        research_wait = 5;
-        min_energy_increase_amount_rate = 1;
-        max_co2 = 2000;
-        starting_energy_plants = 2;
-        policy_wait = 5;
-
-        damage_percent_min = 0.001f; 
-        damage_percent_max = 0.01f;
-        maximum_damage_wait = 30;
-        maximum_relief_wait = 20;
-        
-        blank_energy_object_copy = blank_energy_object;
-
-        //define regions advantages 
-        region_advantage.Add(region_names[0], energy_names[0]); 
-        region_advantage.Add(region_names[1], energy_names[1]); 
-
-        //set up energy production levels 
-        int[] coal_energy_int = {0,5,10,15};
-        int[] solar_energy_int = {0,2,8,20};
-        energy_production_by_name.Add("Coal", coal_energy_int); 
-        energy_production_by_name.Add("Solar", solar_energy_int); 
-
-        //set up co2 prodcution levels 
-        int[] coal_co2_int = {0,10,20,30};
-        int[] solar_co2_int = {0,5,3,0}; 
-        co2_production_by_name.Add("Coal", coal_co2_int); 
-        co2_production_by_name.Add("Solar", solar_co2_int); 
-
-        //set up research cost levels 
-        int[] coal_res_cost_int = {5,10,15};//money to increase to next level
-        int[] solar_res_cost_int = {10,20,30}; 
-        energy_research_cost.Add("Coal", coal_res_cost_int); 
-        energy_research_cost.Add("Solar", solar_res_cost_int); 
-
-        //set up research energy increase levels 
-        int[] coal_res_en_int = {5,12,14};
-        int[] solar_res_en_int = {7,12,15}; 
-        energy_research_energy_increase.Add("Coal", coal_res_en_int); 
-        energy_research_energy_increase.Add("Solar", solar_res_en_int); 
-
-        //set up build cost levels 
-        int[] coal_bu_cost_int = {0,7,12,17};//money to build current level
-        int[] solar_bu_cost_int = {0,5,10,15}; 
-        energy_build_cost.Add("Coal", coal_bu_cost_int); 
-        energy_build_cost.Add("Solar", solar_bu_cost_int); 
-        
-        //set up build energy levels 
-        int[] coal_bu_en_int = {0,2,5,10};
-        int[] solar_bu_en_int = {0,5,4,2}; 
-        energy_build_energy_increase.Add("Coal", coal_bu_en_int); 
-        energy_build_energy_increase.Add("Solar", solar_bu_en_int);    
-        
         //so like we don't have to start over each game 
         DontDestroyOnLoad(this.gameObject);
+        if (godInstance == null){
+            godInstance = this; 
+            //define unchanging variables 
+            advantage_pts = 2;  
+            is_time_passing = false;
+            money_drop_max = 5;
+            money_drop_min = 3;
+            money_percent_min = 0.1f; 
+            money_percent_max = 0.4f; 
+            build_wait = 4; 
+            research_wait = 7;
+            min_energy_increase_amount_rate = 0;
+            max_co2 = 4000;
+            starting_energy_plants = 2;
+            policy_wait = 5;
+
+            damage_percent_min = 0.5f; 
+            damage_percent_max = 1.0f;
+            maximum_damage_wait = 30;
+            maximum_relief_wait = 20;
+            
+            blank_energy_object_copy = blank_energy_object;
+            blank_region_object_copy = blank_region_object;
+
+            //define regions advantages
+            region_advantage.Add("North America", "Coal"); 
+            region_advantage.Add("South America", "Biofuel"); 
+            region_advantage.Add("Africa", "Solar"); 
+            region_advantage.Add("Asia", "Natural Gas"); 
+            region_advantage.Add("Europe", "Hydropower"); 
+            region_advantage.Add("Middle East", "Oil");
+            region_advantage.Add("Pacific", "Hydropower");
+
+            //set up energy production levels 
+            int[] coal_energy_int = {0,5,10,15};
+            int[] oil_energy_int = {0,4,8,12};
+            int[] bio_energy_int = {0,7,12,17};
+            int[] gas_energy_int = {0,8,14,20};
+            int[] hydro_energy_int = {0,6,8,15};
+            int[] solar_energy_int = {0,5,17,25};
+            energy_production_by_name.Add("Coal", coal_energy_int); 
+            energy_production_by_name.Add("Oil", oil_energy_int); 
+            energy_production_by_name.Add("Biofuel", bio_energy_int); 
+            energy_production_by_name.Add("Natural Gas", gas_energy_int); 
+            energy_production_by_name.Add("Hydropower", hydro_energy_int); 
+            energy_production_by_name.Add("Solar", solar_energy_int); 
+
+            //set up co2 prodcution levels 
+            int[] coal_co2_int = {0,10,20,30};
+            int[] oil_co2_int = {0,9,17,25}; 
+            int[] bio_co2_int = {0,7,14,19}; 
+            int[] gas_co2_int = {0,6,11,17}; 
+            int[] hydro_co2_int = {0,3,0,0}; 
+            int[] solar_co2_int = {0,0,0,0}; 
+            co2_production_by_name.Add("Coal", coal_co2_int); 
+            co2_production_by_name.Add("Oil", oil_co2_int); 
+            co2_production_by_name.Add("Biofuel", bio_co2_int); 
+            co2_production_by_name.Add("Natural Gas", gas_co2_int); 
+            co2_production_by_name.Add("Hydropower", hydro_co2_int); 
+            co2_production_by_name.Add("Solar", solar_co2_int); 
+
+            //set up research cost levels 
+            int[] coal_res_cost_int = {5,10,15};//money to increase to next level
+            int[] oil_res_cost_int = {5,10,15}; 
+            int[] bio_res_cost_int = {10,15,20}; 
+            int[] gas_res_cost_int = {13,18,25}; 
+            int[] hydro_res_cost_int = {15,20,19}; 
+            int[] solar_res_cost_int = {15,27,33}; 
+            energy_research_cost.Add("Coal", coal_res_cost_int); 
+            energy_research_cost.Add("Oil", oil_res_cost_int); 
+            energy_research_cost.Add("Biofuel", bio_res_cost_int); 
+            energy_research_cost.Add("Natural Gas", gas_res_cost_int);
+            energy_research_cost.Add("Hydropower", hydro_res_cost_int);
+            energy_research_cost.Add("Solar", solar_res_cost_int);  
+            
+
+            //set up research energy increase levels 
+            int[] coal_res_en_int = {4,10,15};
+            int[] oil_res_en_int = {4,10,15};
+            int[] bio_res_en_int = {8,13,18};
+            int[] gas_res_en_int = {10,15,21};
+            int[] hydro_res_en_int = {8,14,17};
+            int[] solar_res_en_int = {8,23,28};
+            energy_research_energy_increase.Add("Coal", coal_res_en_int); 
+            energy_research_energy_increase.Add("Oil", oil_res_en_int); 
+            energy_research_energy_increase.Add("Biofuel", bio_res_en_int);
+            energy_research_energy_increase.Add("Natural Gas", gas_res_en_int);
+            energy_research_energy_increase.Add("Hydropower", hydro_res_en_int);
+            energy_research_energy_increase.Add("Solar", solar_res_en_int);
+
+            //set up build cost levels 
+            int[] coal_bu_cost_int = {0,3,8,13};//money to build current level
+            int[] oil_bu_cost_int = {0,3,8,13}; 
+            int[] bio_bu_cost_int = {0,7,10,15}; 
+            int[] gas_bu_cost_int = {0,9,12,17}; 
+            int[] hydro_bu_cost_int = {0,6,10,15}; 
+            int[] solar_bu_cost_int = {0,7,15,20}; 
+            energy_build_cost.Add("Coal", coal_bu_cost_int); 
+            energy_build_cost.Add("Oil", oil_bu_cost_int); 
+            energy_build_cost.Add("Biofuel", bio_bu_cost_int); 
+            energy_build_cost.Add("Natural Gas", gas_bu_cost_int); 
+            energy_build_cost.Add("Hydropower", hydro_bu_cost_int); 
+            energy_build_cost.Add("Solar", solar_bu_cost_int); 
+            
+            //set up build energy levels 
+            int[] coal_bu_en_int = {0,2,5,10};
+            int[] oil_bu_en_int = {0,2,5,10}; 
+            int[] bio_bu_en_int = {0,4,7,12}; 
+            int[] gas_bu_en_int = {0,2,6,10}; 
+            int[] hydro_bu_en_int = {0,2,5,10}; 
+            int[] solar_bu_en_int = {0,5,4,2}; 
+            energy_build_energy_increase.Add("Coal", coal_bu_en_int); 
+            energy_build_energy_increase.Add("Oil", oil_bu_en_int);  
+            energy_build_energy_increase.Add("Biofuel", bio_bu_en_int);    
+            energy_build_energy_increase.Add("Natural Gas", gas_bu_en_int);  
+            energy_build_energy_increase.Add("Hydropower", hydro_bu_en_int);  
+            energy_build_energy_increase.Add("Solar", solar_bu_en_int);  
+        }else{
+            Destroy(gameObject);
+        }
+        
+        
+        
     }
 
     //runs when start buttton is clicked
     //reset variables, add starting timers and loads main screen
-    public void start_game(){
+    static public void start_game(){
+        clear_out();
         //sets up game when start is pressed
 
         //reset all changing 
@@ -179,8 +245,8 @@ public class God : MonoBehaviour
         current_energy_needs = 0; 
         added_energy_needs = 0;
 
-        min_energy_increase_time = 15; 
-        min_energy_increase_amount = 2;
+        min_energy_increase_time = 10; 
+        min_energy_increase_amount = 3;
 
         current_popularity = 0.8;
         Research.toggles_active =true;
@@ -201,7 +267,11 @@ public class God : MonoBehaviour
         //reset energy_restriction dictionary 
         energy_restrictions.Clear();
         foreach(string i in energy_names){
-            energy_restrictions.Add(i, 1);
+            for(int n = 1; n < 4; n++){
+                string restriction_name = i + "/" + n.ToString();
+                energy_restrictions.Add(restriction_name, 1);
+            }
+            
         }
 
         //set staring money to be just enough to build a coal plant 
@@ -220,7 +290,7 @@ public class God : MonoBehaviour
         //creates region objects, intializes them, and adds them to region list
         regions.Clear();
         foreach(var i in region_names){
-            GameObject new_region_ob = Instantiate(blank_region_object); 
+            GameObject new_region_ob = Instantiate(blank_region_object_copy); 
             Region new_region_script = new_region_ob.GetComponent<Region>();
             new_region_script.name = i; 
             new_region_script.advantage = region_advantage[i];
@@ -234,10 +304,15 @@ public class God : MonoBehaviour
         foreach (string i in energy_names){ 
             research_levels.Add(i,0);
         }
+
+        //start off with researching coal level 1 
+        research_levels["Coal"] = 1;
         
         //build starting energy 
         for (int i = 0; i < starting_energy_plants; i++){
-            buy_energy_plant("Coal", 1, "North America");
+            int random_num = Random.Range(0, region_names.Length);//get random index for region
+            string region_name = region_names[random_num];
+            buy_energy_plant("Coal", 1, region_name);
 
         }
 
@@ -250,10 +325,14 @@ public class God : MonoBehaviour
 
     }
 
+
+
     // map value point from one range to another 
      public static double remap (double value, double from1, double to1, double from2, double to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
+
+
 
     //start new timer for money drop
     public static void add_new_money_timer(){
@@ -266,12 +345,15 @@ public class God : MonoBehaviour
         GameTime.god_timer.Add("energy", min_energy_increase_time);
     }
 
+
+
     //calculate and update popularity 
     public static void calc_popularity(){
         if(world_co2_production != 0){
             //calculate quality of co2 and energy production 
             double percent_till_doom = 1 - ((double)world_co2_total/(double)max_co2);
-            double percent_surplus = current_surplus/world_energy_production; 
+            double percent_surplus = (double) current_surplus/(double)world_energy_production; 
+
 
             //remap values between min and max values 
             double mapped_till_doom = remap(percent_till_doom, 0, 1, co2_pop_min, co2_pop_max); 
@@ -283,6 +365,8 @@ public class God : MonoBehaviour
         }
 
     }
+
+
 
     //returns true if player lost game 
     public static bool if_lost(){ 
@@ -298,6 +382,9 @@ public class God : MonoBehaviour
             return false;
         }
     }
+
+
+
     //returns true if player won game 
     public static bool if_won(){ 
         //if reached net zero emmissions return true 
@@ -307,6 +394,9 @@ public class God : MonoBehaviour
             return false;
         }
     }
+
+
+
     //update world energy, co2 production and popularity 
     public static void update_world(){ 
         
@@ -351,7 +441,7 @@ public class God : MonoBehaviour
         new_energy_script.energy_production = energy_production_by_name[energy_name]; 
         new_energy_script.co2_production = co2_production_by_name[energy_name];
         new_energy_script.level = level; 
-        new_energy_script.energy_restriction = energy_restrictions[energy_name];
+        new_energy_script.energy_restriction = energy_restrictions[energy_name + "/"+ level.ToString()];
         new_energy_script.initalize();
 
         //add energy plant to region
@@ -366,8 +456,18 @@ public class God : MonoBehaviour
         }
 
         //make all future plants also retricted
-        energy_restrictions[name] = restriction;//TODO add level to energy restrictions
+        energy_restrictions[name + "/" + level.ToString()] = restriction;//TODO add level to energy restrictions
         update_world();
+    }
+
+    public static int[] restriction_change(string name, int level, float restriction){
+        int[] change = {0,0};
+        foreach (var i in regions){
+            int[] region_change = i.Value.restriction_energy_change(name, level, restriction); 
+            change[0] += region_change[0]; 
+            change[1] += region_change[1];
+        }
+        return change;
     }
 
    
@@ -404,13 +504,6 @@ public class God : MonoBehaviour
 
     //wipes all nessesary variables at end of game 
     public static void clear_out(){
-        region_advantage.Clear(); 
-        energy_production_by_name.Clear(); 
-        co2_production_by_name.Clear(); 
-        energy_build_cost.Clear(); 
-        energy_build_energy_increase.Clear();
-        energy_research_cost.Clear(); 
-        energy_research_energy_increase.Clear();
         GameTime.clear_out();
     }
         
@@ -443,9 +536,9 @@ public class God : MonoBehaviour
         SceneManager.LoadScene("MainScene");
     }
     //loads ending screen
-    public static  void load_end(){
-        clear_out();
+    public static void load_end(){
         SceneManager.LoadScene("EndScene");
+        clear_out();
     }
     //loads opening screen 
     public void load_opening(){

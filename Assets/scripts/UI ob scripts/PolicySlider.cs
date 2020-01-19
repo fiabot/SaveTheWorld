@@ -34,6 +34,9 @@ public class PolicySlider : MonoBehaviour
         title.text = name + " " + level.ToString(); 
         transform.position = transform.position + new Vector3(0,y_offset,0);
 
+        slider = GetComponent<Slider>(); 
+        slider.value = God.energy_restrictions[name + "/" + level.ToString()];
+
     }
 
     //Resturn value of slider

@@ -19,6 +19,8 @@ public class PolicyPage : MonoBehaviour
     public static GameObject blank_slider_copy;
     public static Transform Canvas_copy;
     public List<PolicySlider> sliders = new List<PolicySlider>();
+    public Text energy_text; 
+    public Text co2_text;
 
     // initalize important variables 
     void Start()
@@ -73,7 +75,7 @@ public class PolicyPage : MonoBehaviour
     }
     //use popularity to randomly determine if the policy passes 
     public bool policy_passes(){
-        double chance = Random.value;
+        double chance = Random.value - 0.3;
         if (chance < God.current_popularity){
             main_title.text = "policy passes";
             return true; 
@@ -108,9 +110,25 @@ public class PolicyPage : MonoBehaviour
         God.can_policy = true;
     }
 
-    // Update is called once per frame
+    // update predicted co2 and energy levels 
     void Update()
     {
-        
+        int[] change = {0,0};//first index is energy, second co2  
+        foreach(PolicySlider i in sliders){
+            string name = i.name; 
+            int level = i.level;
+            float restriction = i.get_value();
+            int[] slider_change = God.restriction_change(name, level, restriction);
+            change[0] += slider_change[0]; 
+            change[1] += slider_change[1];
+        } 
+
+        int energy_effect = God.world_energy_production + change[0]; 
+        int co2_effect = God.world_co2_production + change[1];
+
+        energy_text.text = "Energy:" +  energy_effect.ToString(); 
+        co2_text.text = "Co2:" + co2_effect.ToString();
+
+
     }
 }

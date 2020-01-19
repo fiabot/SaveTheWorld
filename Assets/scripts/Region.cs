@@ -77,8 +77,8 @@ public class Region: MonoBehaviour
        Debug.Log("applying restriciont");
        foreach(Energy i in energy_plants){
            if (i.name == energy_name && i.level == level){
-               i.energy_restriction = restriction; 
-            i.scale_energy(); 
+                i.energy_restriction = restriction; 
+                i.scale_energy(); 
            }
        }
        update_energy();
@@ -94,5 +94,16 @@ public class Region: MonoBehaviour
        }
        update_energy(); 
        update_co2();
+   }
+    //return how much energy would change under a restriction 
+    public int[] restriction_energy_change(string energy_name, int level, float restriction){
+        int[] change = {0,0};
+        foreach(Energy i in energy_plants){
+            if (i.name == energy_name && i.level == level){
+               change[0] += i.energy_change(restriction);
+               change[1] += i.co2_change(restriction);
+           }
+       }
+       return change;
    }
 }
