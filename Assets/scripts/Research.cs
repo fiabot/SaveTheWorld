@@ -60,7 +60,7 @@ public class Research: MonoBehaviour
                     count += 1; 
                 }*/
             }
-            offset -= 35;
+            offset -= 50;
         }
 
     }

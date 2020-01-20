@@ -54,7 +54,7 @@ public class Building : MonoBehaviour
                 new_toggle_script.y_offset = offset;
                 new_toggle_script.initalize();
                 
-                offset -= 35;
+                offset -= 45;
             }
         }
 

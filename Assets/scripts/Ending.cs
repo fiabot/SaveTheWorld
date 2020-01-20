@@ -16,8 +16,10 @@ public class Ending : MonoBehaviour
     {
         if(God.player_won){
             title.text = "You Won!";
-        }else if (God.player_lost){
-            title.text = "You Lost!";
+        }else if (God.world_co2_total >= God.max_co2){
+            title.text = "Too Much Co2";
+        }else if (God.current_energy_needs >= God.world_energy_production){
+            title.text = "Energy Supply Gone";
         }else{
             title.text = "You Suck!";
         }

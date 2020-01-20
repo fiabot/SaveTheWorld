@@ -56,17 +56,17 @@ public class PolicyPage : MonoBehaviour
             Debug.Log(i.Value);
             if (i.Value >= 1 ){
                 new_slider(i.Key, 1, offset);
-                offset -= 45;
+                offset -= 65;
             }
 
             if (i.Value >= 2){
                 new_slider(i.Key, 2, offset);
-                offset -= 45;
+                offset -= 65;
             }
 
             if (i.Value >= 3){
                 new_slider(i.Key, 3, offset);
-                offset -= 45;
+                offset -= 65;
             }
             
 
