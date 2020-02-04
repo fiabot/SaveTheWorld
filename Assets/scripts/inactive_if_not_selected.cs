@@ -24,7 +24,7 @@ public class inactive_if_not_selected : MonoBehaviour
     void Update()
     {
         if(active_with_research){
-            bool has_research =false; 
+            bool has_research = false; 
             foreach (KeyValuePair<string, int> i in God.research_levels){
                 if (i.Value != 0){
                     has_research = true;

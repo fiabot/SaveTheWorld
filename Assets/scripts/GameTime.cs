@@ -56,7 +56,12 @@ public class GameTime : MonoBehaviour
                 God.world_co2_total += God.world_co2_production;
                 God.update_world();
 
-                //update all timer, and trigger finished event if needed 
+                //save game occasionally 
+                if(God.current_day % 5 == 0){
+                    God.save();
+                }
+
+                //update all timers, and trigger finished event if needed 
 
                 //update research timers 
                 List<string> research_keys= new List<string>(research_timer.Keys);

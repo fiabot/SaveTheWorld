@@ -17,6 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using BayatGames.SaveGameFree;
 
 public class God : MonoBehaviour
 {
@@ -229,10 +230,16 @@ public class God : MonoBehaviour
         
         
     }
+    public void different_start(){
+        Debug.Log("different Start");
+    }
+
+
 
     //runs when start buttton is clicked
     //reset variables, add starting timers and loads main screen
     static public void start_game(){
+        Debug.Log("starting");
         clear_out();
         //sets up game when start is pressed
 
@@ -249,7 +256,7 @@ public class God : MonoBehaviour
         min_energy_increase_amount = 3;
 
         current_popularity = 0.8;
-        Research.toggles_active =true;
+        Research.toggles_active = true;
         energy_pop_min = 0.2;
         co2_pop_min = 0.3;
         energy_pop_max = 0.5; 
@@ -327,6 +334,82 @@ public class God : MonoBehaviour
 
 
 
+    //save current game status
+    public static void save(){
+        SaveGame.Save<int>("current_day", current_day);
+        SaveGame.Save<float>("second_since_start", seconds_since_start);
+        SaveGame.Save<int>("min_energy_needs", min_energy_needs);
+        SaveGame.Save<int>("current_energy_needs", current_energy_needs);
+        SaveGame.Save<int>("added_energy_needs", added_energy_needs);
+        SaveGame.Save<int>("min_energy_increase_amount", min_energy_increase_amount);
+        SaveGame.Save<int>("min_energy_increase_time", min_energy_increase_time);
+        SaveGame.Save<double>("current_popularity", current_popularity);
+        SaveGame.Save<double>("energy_pop_min", energy_pop_min);
+        SaveGame.Save<double>("energy_pop_min", energy_pop_max);
+        SaveGame.Save<double>("co2_pop_min", co2_pop_min);
+        SaveGame.Save<double>("co2_pop_min", co2_pop_max);
+        SaveGame.Save<int>("total_money", total_money);
+
+        SaveGame.Save<int>("world_energy_production", world_energy_production);
+        SaveGame.Save<int>("co2_energy_production", world_co2_production);
+        SaveGame.Save<int>("world_co2_total", world_co2_total);
+
+        SaveGame.Save<Dictionary<string, float>>("energy_restrictions", energy_restrictions);
+        SaveGame.Save<Dictionary<string, Region>>("regions", regions);
+        SaveGame.Save<Dictionary<string, int>>("research_levels", research_levels);
+
+        SaveGame.Save<bool>("Saved Game", true);
+
+    }
+    
+
+
+    //load existing game 
+    public static void load(){ 
+        clear_out();
+        current_day = SaveGame.Load<int>("current_day");
+        seconds_since_start = SaveGame.Load<float>("second_since_start");
+        min_energy_needs = SaveGame.Load<int>("min_energy_needs");
+        current_energy_needs = SaveGame.Load<int>("current_energy_needs");
+        added_energy_needs = SaveGame.Load<int>("added_energy_needs");
+        min_energy_increase_amount = SaveGame.Load<int>("min_energy_increase_amount");
+        min_energy_increase_time = SaveGame.Load<int>("min_energy_increase_time");
+        current_popularity = SaveGame.Load<double>("current_popularity");
+        energy_pop_min = SaveGame.Load<double>("energy_pop_min");
+        energy_pop_max = SaveGame.Load<double>("energy_pop_min");
+        co2_pop_min = SaveGame.Load<double>("co2_pop_min");
+        co2_pop_max = SaveGame.Load<double>("co2_pop_min");
+        total_money = SaveGame.Load<int>("total_money");
+
+        world_energy_production = SaveGame.Load<int>("world_energy_production");
+        world_co2_production = SaveGame.Load<int>("co2_energy_production");
+        world_co2_total = SaveGame.Load<int>("world_co2_total");
+
+        energy_restrictions = SaveGame.Load<Dictionary<string, float>>("energy_restrictions");
+        regions = SaveGame.Load<Dictionary<string, Region>>("regions");
+        research_levels = SaveGame.Load<Dictionary<string, int>>("research_levels") ;
+
+        player_lost = false; 
+        player_won = false;
+        is_time_passing = true; 
+        can_policy = true; 
+
+        //create new money drop timer 
+        add_new_money_timer();
+
+        //create new min energy increse timer 
+        add_new_energy_increase_timer();
+
+        //create first disater timer 
+        Disaster.add_disaster_timer();
+
+         //update energy, co2 and other important varriables
+        update_world();
+
+        //loads main scene
+        SceneManager.LoadScene("MainScene");
+    }
+
     // map value point from one range to another 
      public static double remap (double value, double from1, double to1, double from2, double to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
@@ -365,7 +448,6 @@ public class God : MonoBehaviour
         }
 
     }
-
 
 
     //returns true if player lost game 
@@ -456,10 +538,11 @@ public class God : MonoBehaviour
         }
 
         //make all future plants also retricted
-        energy_restrictions[name + "/" + level.ToString()] = restriction;//TODO add level to energy restrictions
+        energy_restrictions[name + "/" + level.ToString()] = restriction;
         update_world();
     }
 
+    //Calculate how much energy would change under a restriction 
     public static int[] restriction_change(string name, int level, float restriction){
         int[] change = {0,0};
         foreach (var i in regions){
@@ -537,11 +620,16 @@ public class God : MonoBehaviour
     }
     //loads ending screen
     public static void load_end(){
+        SaveGame.Save<bool>("Saved Game", false);
         SceneManager.LoadScene("EndScene");
         clear_out();
     }
     //loads opening screen 
     public void load_opening(){
+        SceneManager.LoadScene("OpeningScene");
+    }
+    //loads opening screen outside of script
+    public static void static_load_opening(){
         SceneManager.LoadScene("OpeningScene");
     }
     
